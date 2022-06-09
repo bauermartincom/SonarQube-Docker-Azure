@@ -1,0 +1,28 @@
+version: '3.3'
+ 
+services:
+  sonarqube:
+    image: sonarqube:lts-community
+    command: "-Dsonar.search.javaAdditionalOpts=-Dnode.store.allow_mmap=false"
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube-conf:/opt/sonarqube/conf
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+    environment:
+    - SONARQUBE_JDBC_URL=jdbc:sqlserver://server:1433;databaseName=databsae
+    - SONARQUBE_JDBC_USERNAME=username
+    - SONARQUBE_JDBC_PASSWORD=password
+    - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+   
+volumes:
+  sonarqube-conf:
+      external: true
+  sonarqube-data:
+      external: true
+  sonarqube-extensions:
+      external: true
+  sonarqube-bundled-plugins:
+      external: true
